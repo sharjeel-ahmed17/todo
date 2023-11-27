@@ -2,13 +2,200 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .todoApp {
+            padding: 20px 30px;
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 4px 3px 2px blue;
+            border-radius: 20px;
+        }
+
+        h1 {
+            text-transform: capitalize;
+        }
+
+        input {
+
+            padding: 12px 5px;
+            background: transparent;
+            border: none;
+            color: white;
+            border-bottom: 2px solid white;
+        }
+
+        ::placeholder {
+            color: white;
+            text-transform: capitalize;
+        }
+
+        .displayNone {
+            display: none;
+        }
+
+        .displayBlock {
+            display: inline-block;
+        }
+
+        .btnDesign {
+            background: green;
+            color: white;
+            font-size: 18px;
+            text-transform: capitalize;
+            font-weight: 600;
+            padding: 8px 10px;
+            margin: 10px 7px;
+            border: none;
+            border-radius: 16px;
+        }
+
+        /* ol li {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        } */
+    </style>
 </head>
 
 <body>
-    <h1>todo app</h1>
+    <div class="todoApp">
+        <h1>todo app</h1>
+
+        <input type="text" id="todoInput" placeholder="add to do item ">
+        <button id="addBtn" onclick="addTodo()">Add todo</button>
+
+        <button id="saveTodo">save</button>
+
+        <button id="deleteAll">delete all </button>
+        <ol id="todoList">
+            <!-- <li>sdhaljhl <button>edit</button> <button>delete</button></li> -->
+        </ol>
+    </div>
+    <script>
+        let editLi = null;
+        // editLi.className = "btnDesign";
+        let saveBtn = document.getElementById("saveTodo");
+        saveBtn.className = "displayNone";
+        // saveBtn.className = "btnDesign";
+
+        let deleteAll = document.getElementById("deleteAll");
+        deleteAll.className = "displayNone";
+
+        deleteAll.addEventListener("click", function () {
+
+            todoInput.value = "";
+
+
+            if (todoList.children.length > 0) {
+
+                todoList.innerHTML = null;
+            } else {
+
+                deleteAll.className = "displayNone";
+            }
+
+
+
+
+        })
+        let addBtn = document.getElementById("addBtn");
+        addBtn.className = "btnDesign";
+
+
+
+        function addTodo() {
+
+            let todoInput = document.getElementById("todoInput");
+            // todoInput.placeholder = "add to do item here";
+            let todoInputValue = todoInput.value;
+            let todoList = document.getElementById("todoList");
+
+
+
+
+
+            if (todoInput.value.trim()) {
+
+                deleteAll.className = "displayBlock";
+                deleteAll.className = "btnDesign";
+
+                let createLi = document.createElement("li");
+                createLi.innerText = todoInputValue;
+                todoList.appendChild(createLi);
+
+                let editBtn = document.createElement("button");
+                editBtn.innerText = "edit";
+                // editBtn.innerHTML = <i class="fa-solid fa-pen-to-square"></i>;
+
+                editBtn.className = "btnDesign"
+
+                createLi.appendChild(editBtn);
+
+                let deleteBtn = document.createElement("button");
+                deleteBtn.innerText = "delete";
+                deleteBtn.className = "btnDesign";
+
+                createLi.appendChild(deleteBtn);
+
+
+
+
+
+                deleteBtn.addEventListener("click", function () {
+
+                    deleteBtn.parentNode.remove();
+                    // createLi.remove();
+                })
+
+                editBtn.addEventListener("click", function () {
+                    console.log("edit successfully")
+                    forEditText = createLi.childNodes[0].nodeValue;
+
+                    todoInput.value = forEditText;
+
+                    editLi = createLi;
+                    addBtn.className = "displayNone";
+                    saveBtn.className = "displayBlock";
+                    saveBtn.className = "btnDesign";
+
+                })
+
+                saveBtn.addEventListener("click", function () {
+
+                    editLi.childNodes[0].nodeValue = todoInput.value;
+
+                    addBtn.className = "displayBlock";
+                    saveBtn.className = "displayNone";
+                    addBtn.className = "btnDesign";
+                })
+            }
+            else {
+                alert("please input  a todo");
+            }
+
+            todoInput.value = null;
+
+        }
+
+
+
+    </script>
 </body>
 
 </html>
